@@ -9,18 +9,7 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const CACHE_KEY = "my_api_data";
   const TIMESTAMP_KEY = "my_api_timestamp";
-  const ONE_HOUR = 60 * 60 * 1000; // Time in milliseconds  
-
-  // function to fetch products from the API:
-  // const fetchProducts = async () => {
-  //   try {
-  //     const response = await fetch("https://fakestoreapi.com/products");
-  //     const data = await response.json();
-  //     setProducts(data);
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   }
-  // };
+  const ONE_HOUR = 60 * 60 * 1000;
 
   // useEffect to fetch products:
   useEffect(() => {
@@ -60,7 +49,9 @@ export default function Home() {
     const now = Date.now();
 
     if (cachedData && cachedTimestamp && (now - cachedTimestamp < ONE_HOUR)) {
-      setProducts(JSON.parse(cachedData));
+      const cp = JSON.parse(cachedData);
+      console.log(cp);
+      setProducts(cp);
     } 
     else {
       try {
