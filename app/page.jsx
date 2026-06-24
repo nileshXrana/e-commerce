@@ -23,7 +23,7 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  // cart from localStorage
+  // cart from localStorage:
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
