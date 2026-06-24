@@ -1,11 +1,14 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import Navbar from "./components/navbar";
 import './page.css';
 import Box from '@mui/material/Box';
-// import CircularProgress from '@mui/material/CircularProgress';
 import CircularIndeterminate from './components/CircularIndeterminate';
 
 export default function Home() {
@@ -13,6 +16,33 @@ export default function Home() {
   const [cart, setCart] = useState([]);
   const [filter, setFilter] = useState(10);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  // snackbar
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   // fetch products
   useEffect(() => {
@@ -179,7 +209,7 @@ export default function Home() {
 
       {loading ?
         <Box className="loading">
-          <CircularIndeterminate/>
+          <CircularIndeterminate />
           Loading...
         </Box> :
 
@@ -192,6 +222,14 @@ export default function Home() {
 
             return (
               <Box key={product.id} className="card">
+                <Snackbar
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  open={open}
+                  autoHideDuration={2000}
+                  onClose={handleClose}
+                  message="Item Added"
+                  action={action}
+                />
                 <Box className="image-container">
                   <Image src={product.image} alt={product.title} width={150} height={150}
                     className="image" />
@@ -202,26 +240,39 @@ export default function Home() {
                     <p className="price">${product.price.toFixed(2)}</p>
 
                     {!isAdded ? (
-                      <Button
-                        className="addtocart block"
-                        variant="contained"
-                        onClick={() => addToCart(product)}
-                      >
-                        Add to Cart
-                      </Button>
+                      <div>
+                        <Button
+                          className="addtocart block"
+                          variant="contained"
+                          onClick={() => {
+                            addToCart(product);
+                            handleClick();
+                          }}
+                        >
+                          Add to Cart
+                        </Button>
+
+                      </div>
+
                     ) : (
                       <Box className="qty-selector">
-                        <button
-                          className="qty-btn"
-                          onClick={() => decreaseQty(product.id)}
-                          disabled={qty === 0}
-                        >
-                          -
-                        </button>
+                        <div>
+                          <button
+                            className="qty-btn"
+                            onClick={() => {
+                              decreaseQty(product.id)
+                            }}
+                            disabled={qty === 0}
+                          >
+                            -
+                          </button>
+                        </div>
                         <span className="qty-text">{qty}</span>
                         <button
                           className="qty-btn"
-                          onClick={() => addToCart(product)}
+                          onClick={() => {
+                            addToCart(product);
+                          }}
                         >
                           +
                         </button>

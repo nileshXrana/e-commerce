@@ -1,8 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@mui/material/Button";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import Navbar from "../components/navbar";
 import "../page.css";
 import "./cart.css";
@@ -10,6 +14,33 @@ import Box from '@mui/material/Box';
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  // snackbar
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>  
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   // localStorage:
   useEffect(() => {
@@ -51,12 +82,19 @@ export default function Cart() {
   const total = subtotal + shippingCharge;
 
   const handlePlaceOrder = () => {
-    alert("Order placed!");
     updateCart([]);
   };
 
   return (
     <Box>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        message="Order Placed Successfully"
+        action={action}
+      />
       <Navbar />
       <main className="main">
         <Box className="cart-container">
@@ -110,11 +148,14 @@ export default function Cart() {
                   <span>Total</span>
                   <span>${total.toFixed(2)}</span>
                 </Box>
-                <Button 
-                  variant="contained" 
-                  className="addtocart" 
-                  style={{ marginTop: "1.5rem" }} 
-                  onClick={handlePlaceOrder}
+                <Button
+                  variant="contained"
+                  className="addtocart"
+                  style={{ marginTop: "1.5rem" }}
+                  onClick={()=>{
+                    handlePlaceOrder();
+                    handleClick();
+                  }}
                 >
                   Place Order
                 </Button>
