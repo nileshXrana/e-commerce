@@ -44,7 +44,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         [theme.breakpoints.up('sm')]: {
@@ -76,7 +75,9 @@ export default function Navbar({filterHelper}) {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        <div className='font-bold font-mono'>E-commerce Store</div>
+                        <Link href="/">
+                            <div className='font-bold font-mono'>E-commerce Store</div>
+                        </Link>
                     </Typography>
 
                     <Link href="/cart" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -96,7 +97,7 @@ export default function Navbar({filterHelper}) {
                                 onChange={filterHelper}
                             />
                         </Search>
-                    )}    
+                    )}
                     
                 </Toolbar>
             </AppBar>

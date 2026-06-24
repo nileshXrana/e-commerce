@@ -10,18 +10,16 @@ import "./cart.css";
 export default function Cart() {
   const [cart, setCart] = useState([]);
 
-  // Load cart from localStorage on mount:
+  // localStorage:
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
-      // Filter out items with quantity <= 0 on initial load to be safe
       const parsedCart = JSON.parse(savedCart).filter(item => item.quantity > 0);
       setCart(parsedCart);
     }
   }, []);
 
   const updateCart = (newCart) => {
-    // Only keep items with quantity > 0
     const filteredCart = newCart.filter(item => item.quantity > 0);
     setCart(filteredCart);
     localStorage.setItem("cart", JSON.stringify(filteredCart));
@@ -46,14 +44,14 @@ export default function Cart() {
     updateCart(newCart);
   };
 
-  // Calculate total:
+  // total:
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shippingCharge = 1.00;
   const total = subtotal + shippingCharge;
 
   const handlePlaceOrder = () => {
-    alert("Order placed successfully!");
-    updateCart([]); // Clear cart
+    alert("Order placed!");
+    updateCart([]);
   };
 
   return (
@@ -63,17 +61,14 @@ export default function Cart() {
         <div className="cart-container">
           <div className="cart-header">
             <h1 className="cart-title">Your Cart</h1>
-            <Link href="/" className="back-link">← Back to Shopping</Link>
+            <Button className="back" variant="outlined" color="primary">
+              <Link href="/" className="back-link">Back to Shopping</Link>
+            </Button>
           </div>
 
           {cart.length === 0 ? (
             <div className="empty-cart">
-              <p>Your cart is currently empty.</p>
-              <Link href="/">
-                <Button variant="contained" className="addtocart" style={{ width: "auto", marginTop: "1rem" }}>
-                  Shop Now
-                </Button>
-              </Link>
+              <p>Your cart is empty !</p>
             </div>
           ) : (
             <div className="cart-layout">

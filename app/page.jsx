@@ -9,7 +9,7 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
-  // Load products from API:
+  // fetch products from API:
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -23,7 +23,7 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  // Load cart from localStorage
+  // cart from localStorage
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
@@ -31,13 +31,13 @@ export default function Home() {
     }
   }, []);
 
-  // Update cart state and write to localStorage:
+  // Update cart + localStorage:
   const updateCart = (newCart) => {
     setCart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
-  // Add to cart or increment quantity:
+  // Add to cart + increment:
   const addToCart = (product) => {
     const existing = cart.find(item => item.id === product.id);
     let newCart;
@@ -51,7 +51,7 @@ export default function Home() {
     updateCart(newCart);
   };
 
-  // Decrease quantity:
+  // decrement:
   const decreaseQty = (productId) => {
     const existing = cart.find(item => item.id === productId);
     if (!existing) return;
@@ -67,7 +67,7 @@ export default function Home() {
     updateCart(newCart);
   };
 
-  // to filter products based on search:
+  // search filter:
   const filterHelper = async (e) => {
     const searchWord = e.target.value.toLowerCase();
     try {
@@ -109,18 +109,18 @@ export default function Home() {
                   <h2 className="title">{product.title}</h2>
                   <div className="card-detail">
                     <p className="price">${product.price.toFixed(2)}</p>
-                    
+
                     {!isAdded ? (
-                      <Button 
-                        className="addtocart block" 
-                        variant="contained" 
+                      <Button
+                        className="addtocart block"
+                        variant="contained"
                         onClick={() => addToCart(product)}
                       >
                         Add to Cart
                       </Button>
                     ) : (
                       <div className="qty-selector">
-                        <button 
+                        <button
                           className="qty-btn"
                           onClick={() => decreaseQty(product.id)}
                           disabled={qty === 0}
@@ -128,7 +128,7 @@ export default function Home() {
                           -
                         </button>
                         <span className="qty-text">{qty}</span>
-                        <button 
+                        <button
                           className="qty-btn"
                           onClick={() => addToCart(product)}
                         >
