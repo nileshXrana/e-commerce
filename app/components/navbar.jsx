@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Link from 'next/link';
 import '../page.css';
+import BasicSelect from './Select';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -55,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function Navbar({filterHelper}) {
+export default function Navbar({ filterHelper, filter, setFilter }) {
     return (
         <Box sx={{ flexGrow: 1 }} className='sticky top-0 z-10'>
             <AppBar position="static">
@@ -76,13 +77,14 @@ export default function Navbar({filterHelper}) {
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
                         <Link href="/">
-                            <div className='font-bold font-mono'>E-commerce Store</div>
+                            <Box className='font-bold font-mono'>E-commerce Store</Box>
                         </Link>
                     </Typography>
 
+
                     <Link href="/cart" style={{ color: 'inherit', textDecoration: 'none' }}>
                         <IconButton color="inherit" aria-label="add to shopping cart" className='font-bold'>
-                            <AddShoppingCartIcon/>
+                            <AddShoppingCartIcon />
                         </IconButton>
                     </Link>
 
@@ -98,7 +100,9 @@ export default function Navbar({filterHelper}) {
                             />
                         </Search>
                     )}
-                    
+
+                    <BasicSelect filter={filter} setFilter={setFilter} />
+
                 </Toolbar>
             </AppBar>
         </Box>

@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Navbar from "../components/navbar";
 import "../page.css";
 import "./cart.css";
+import Box from '@mui/material/Box';
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
@@ -55,60 +56,60 @@ export default function Cart() {
   };
 
   return (
-    <div>
+    <Box>
       <Navbar />
       <main className="main">
-        <div className="cart-container">
-          <div className="cart-header">
+        <Box className="cart-container">
+          <Box className="cart-header">
             <h1 className="cart-title">Your Cart</h1>
             <Button className="back" variant="outlined" color="primary">
               <Link href="/" className="back-link">Back to Shopping</Link>
             </Button>
-          </div>
+          </Box>
 
           {cart.length === 0 ? (
-            <div className="empty-cart">
+            <Box className="empty-cart">
               <p>Your cart is empty !</p>
-            </div>
+            </Box>
           ) : (
-            <div className="cart-layout">
-              <div className="cart-items-list">
+            <Box className="cart-layout">
+              <Box className="cart-items-list">
                 {cart.map((item) => (
-                  <div key={item.id} className="cart-item">
-                    <div className="cart-item-image">
+                  <Box key={item.id} className="cart-item">
+                    <Box className="cart-item-image">
                       <Image src={item.image} alt={item.title} width={80} height={80} style={{ objectFit: "contain" }} />
-                    </div>
-                    <div className="cart-item-details">
+                    </Box>
+                    <Box className="cart-item-details">
                       <h3 className="cart-item-title">{item.title}</h3>
                       <p className="cart-item-price">${item.price.toFixed(2)}</p>
-                    </div>
-                    <div className="cart-item-actions">
-                      <div className="cart-qty-selector">
+                    </Box>
+                    <Box className="cart-item-actions">
+                      <Box className="cart-qty-selector">
                         <button className="qty-btn" onClick={() => decreaseQty(item.id)}>-</button>
                         <span className="qty-text">{item.quantity}</span>
                         <button className="qty-btn" onClick={() => increaseQty(item.id)}>+</button>
-                      </div>
+                      </Box>
                       <button className="remove-btn" onClick={() => removeItem(item.id)}>Remove</button>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 ))}
-              </div>
+              </Box>
 
-              <div className="cart-summary">
+              <Box className="cart-summary">
                 <h2 className="summary-title">Summary</h2>
-                <div className="summary-row">
+                <Box className="summary-row">
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="summary-row">
+                </Box>
+                <Box className="summary-row">
                   <span>Shipping</span>
                   <span>$1.00</span>
-                </div>
-                <div className="summary-divider"></div>
-                <div className="summary-row total-row">
+                </Box>
+                <Box className="summary-divider"></Box>
+                <Box className="summary-row total-row">
                   <span>Total</span>
                   <span>${total.toFixed(2)}</span>
-                </div>
+                </Box>
                 <Button 
                   variant="contained" 
                   className="addtocart" 
@@ -117,11 +118,11 @@ export default function Cart() {
                 >
                   Place Order
                 </Button>
-              </div>
-            </div>
+              </Box>
+            </Box>
           )}
-        </div>
+        </Box>
       </main>
-    </div>
+    </Box>
   );
 }

@@ -1,0 +1,46 @@
+.not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.fourzerofour {
+    font-size: 6rem;
+    font-weight: bold;
+    color: #315d63;
+    margin-bottom: 1rem;
+}
+
+.pnf {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #315d63;
+    margin-bottom: 1rem;
+}
+
+.para {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #1d4ed8;
+    transition: all 0.2s ease;
+    transform: scale(1.1);
+}
