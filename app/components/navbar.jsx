@@ -8,14 +8,17 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Link from 'next/link';
 import '../page.css';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    borderRadius: '8px',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
     '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
+        backgroundColor: 'rgba(255, 255, 255, 0.25)',
+        borderColor: 'rgba(255, 255, 255, 0.4)',
     },
     marginLeft: 0,
     width: '100%',
@@ -33,10 +36,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: 'rgba(255, 255, 255, 0.8)',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
+    color: '#ffffff',
     width: '100%',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -44,9 +48,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         [theme.breakpoints.up('sm')]: {
-            width: '12ch',
+            width: '14ch',
             '&:focus': {
-                width: '20ch',
+                width: '22ch',
             },
         },
     },
@@ -72,23 +76,27 @@ export default function Navbar({filterHelper}) {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        <div className='font-bold italic font-serif'>E-commerce Store</div>
+                        <div className='font-bold font-mono'>E-commerce Store</div>
                     </Typography>
 
-                    <IconButton color="black" aria-label="add to shopping cart" className='font-bold'>
-                        <AddShoppingCartIcon/>
-                    </IconButton>
+                    <Link href="/cart" style={{ color: 'inherit', textDecoration: 'none' }}>
+                        <IconButton color="inherit" aria-label="add to shopping cart" className='font-bold'>
+                            <AddShoppingCartIcon/>
+                        </IconButton>
+                    </Link>
 
-                    {/* <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search> */}
-                    <input type="text" placeholder="Search Product" className='searchbar' onChange={(e)=>filterHelper(e)}/>    
+                    {filterHelper && (
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search..."
+                                inputProps={{ 'aria-label': 'search' }}
+                                onChange={filterHelper}
+                            />
+                        </Search>
+                    )}    
                     
                 </Toolbar>
             </AppBar>
