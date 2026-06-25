@@ -11,6 +11,8 @@ import './page.css';
 import Box from '@mui/material/Box';
 import CircularIndeterminate from './components/CircularIndeterminate';
 
+let searchTimeout;
+
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
@@ -122,25 +124,29 @@ export default function Home() {
 
   // search filter:
   const filterHelper = async (e) => {
-    setLoading(true);
     const searchWord = e.target.value.toLowerCase();
-    try {
-      const response = await fetch("https://fakestoreapi.com/products");
-      const data = await response.json();
+    setLoading(true);
+    clearTimeout(searchTimeout);
+    
+    searchTimeout = setTimeout(async () => {
+      try {
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data = await response.json();
 
-      if (searchWord === "") {
-        setProducts(data);
-      } else {
-        const filteredProducts = data.filter(product =>
-          product.title.toLowerCase().includes(searchWord)
-        );
-        setProducts(filteredProducts);
+        if (searchWord === "") {
+          setProducts(data);
+        } else {
+          const filteredProducts = data.filter(product =>
+            product.title.toLowerCase().includes(searchWord)
+          );
+          setProducts(filteredProducts);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("API error:", error);
-    } finally {
-      setLoading(false);
-    }
+    }, 1000); // 1000ms debounce
   };
 
   // low to high price:
