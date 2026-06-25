@@ -155,7 +155,7 @@ export default function Home() {
       } finally {
         setLoading(false);
       }
-    }, 1000); // 1000ms debounce
+    }, 500);
   };
 
   // low to high price:
