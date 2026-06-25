@@ -89,7 +89,7 @@ export default function Navbar({ filterHelper, filter, setFilter }) {
                     </Link>
 
                     {filterHelper && (
-                        <Search>
+                        <Search >
                             <SearchIconWrapper>
                                 <SearchIcon />
                             </SearchIconWrapper>

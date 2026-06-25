@@ -14,10 +14,10 @@ export default function BasicSelect({ filter, setFilter }) {
   };
 
   return (
-    <Box sx={{ minWidth: 120, borderRadius: 2, boxShadow: 1, mx: 2 }} className='select-box'>
+    <Box sx={{ minWidth: 150, borderRadius: 2, mx: 1 }} className='select-box'>
       
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+      <FormControl fullWidth >
+        <InputLabel id="demo-simple-select-label" className=''></InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
