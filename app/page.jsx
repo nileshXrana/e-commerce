@@ -19,6 +19,14 @@ export default function Home() {
   const [filter, setFilter] = useState(10);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  // pagination index:
+  const lastProduct = currentPage * itemsPerPage;
+  const firstProduct = lastProduct - itemsPerPage;
+  const currentProducts = products.slice(firstProduct, lastProduct);
+  const totalPages = Math.ceil(products.length / itemsPerPage);
 
   // snackbar
   const handleClick = () => {
@@ -126,8 +134,9 @@ export default function Home() {
   const filterHelper = async (e) => {
     const searchWord = e.target.value.toLowerCase();
     setLoading(true);
+    setCurrentPage(1);
     clearTimeout(searchTimeout);
-    
+
     searchTimeout = setTimeout(async () => {
       try {
         const response = await fetch("https://fakestoreapi.com/products");
@@ -199,6 +208,7 @@ export default function Home() {
 
   // useEffect for filter changes:
   useEffect(() => {
+    setCurrentPage(1);
     if (filter === 20) {
       lowtohigh();
     } else if (filter === 30) {
@@ -219,78 +229,103 @@ export default function Home() {
           Loading...
         </Box> :
 
-        <Box className="main outer" >
+        <Box className="main">
+          <Box className="outer">
+            {currentProducts.map((product) => {
+              const cartItem = cart.find(item => item.id === product.id);
+              const isAdded = !!cartItem;
+              const qty = cartItem ? cartItem.quantity : 0;
 
-          {products.map((product) => {
-            const cartItem = cart.find(item => item.id === product.id);
-            const isAdded = !!cartItem;
-            const qty = cartItem ? cartItem.quantity : 0;
+              return (
+                <Box key={product.id} className="card">
+                  <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    open={open}
+                    autoHideDuration={2000}
+                    onClose={handleClose}
+                    message="Item Added"
+                    action={action}
+                  />
+                  <Box className="image-container">
+                    <Image src={product.image} alt={product.title} width={150} height={150}
+                      className="image" />
+                  </Box>
+                  <Box className="card-content">
+                    <h2 className="title">{product.title}</h2>
+                    <Box className="card-detail">
+                      <p className="price">${product.price.toFixed(2)}</p>
 
-            return (
-              <Box key={product.id} className="card">
-                <Snackbar
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                  open={open}
-                  autoHideDuration={2000}
-                  onClose={handleClose}
-                  message="Item Added"
-                  action={action}
-                />
-                <Box className="image-container">
-                  <Image src={product.image} alt={product.title} width={150} height={150}
-                    className="image" />
-                </Box>
-                <Box className="card-content">
-                  <h2 className="title">{product.title}</h2>
-                  <Box className="card-detail">
-                    <p className="price">${product.price.toFixed(2)}</p>
-
-                    {!isAdded ? (
-                      <div>
-                        <Button
-                          className="addtocart block"
-                          variant="contained"
-                          onClick={() => {
-                            addToCart(product);
-                            handleClick();
-                          }}
-                        >
-                          Add to Cart
-                        </Button>
-
-                      </div>
-
-                    ) : (
-                      <Box className="qty-selector">
+                      {!isAdded ? (
                         <div>
+                          <Button
+                            className="addtocart block"
+                            variant="contained"
+                            onClick={() => {
+                              addToCart(product);
+                              handleClick();
+                            }}
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
+                      ) : (
+                        <Box className="qty-selector">
+                          <div>
+                            <button
+                              className="qty-btn"
+                              onClick={() => {
+                                decreaseQty(product.id)
+                              }}
+                              disabled={qty === 0}
+                            >
+                              -
+                            </button>
+                          </div>
+                          <span className="qty-text">{qty}</span>
                           <button
                             className="qty-btn"
                             onClick={() => {
-                              decreaseQty(product.id)
+                              addToCart(product);
                             }}
-                            disabled={qty === 0}
                           >
-                            -
+                            +
                           </button>
-                        </div>
-                        <span className="qty-text">{qty}</span>
-                        <button
-                          className="qty-btn"
-                          onClick={() => {
-                            addToCart(product);
-                          }}
-                        >
-                          +
-                        </button>
-                      </Box>
-                    )}
+                        </Box>
+                      )}
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
-            );
-          })}
-        </Box>
+              );
+            })}
+          </Box>
 
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <Box className="pagination-container">
+              <Button
+                variant="outlined"
+                onClick={() => setCurrentPage(prev => prev - 1)}
+                disabled={currentPage === 1}
+                className="page-btn"
+              >
+                &lt;
+              </Button>
+
+              <span className="page-info">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <Button
+                variant="outlined"
+                onClick={() => setCurrentPage(prev => prev + 1)}
+                disabled={currentPage === totalPages}
+                className="page-btn"
+              >
+                &gt;
+              </Button>
+            </Box>
+          )}
+        </Box>
       }
     </Box>
   );

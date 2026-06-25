@@ -196,3 +196,39 @@
     color: #005ed8;
     gap: 1rem;
 }
+
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.page-info {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4b5563;
+    user-select: none;
+}
+
+.page-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    border-color: #d1d5db !important;
+    color: #4b5563 !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+.page-btn:not(:disabled) {
+    background-color: #f3f4f6 !important;
+    border-color: #9ca3af !important;
+    color: #111827 !important;
+}
+
+.page-btn:disabled {
+    border-color: #e5e7eb !important;
+    color: #9ca3af !important;
+}
